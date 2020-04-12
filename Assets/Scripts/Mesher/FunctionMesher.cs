@@ -44,15 +44,15 @@ public class FunctionMesher : MonoBehaviour
 
             //Weighted average between the two results, based on the distance
             float blendedHeight = blendFactor * blendFunctionValue + (1 - blendFactor) * functionValue;
-
-            /*
+            
+            
             Debug.LogFormat("DIstance: {0}. Blend Factor: {1}. Blend func val: {2}. Func val: {3}. Blended Height: {4}",
                 distance,
                 blendFactor,
                 blendFunctionValue,
                 functionValue,
-                blendedHeight);
-             */   
+                blendedHeight);          
+    
 
             vertices.Add(new Vector3()
             {

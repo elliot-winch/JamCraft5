@@ -27,15 +27,23 @@ public class UnitTest : MonoBehaviour
     private void Start()
     {
         FunctionMesher mA = Test_Mesh(mVisualsPrefabA);
-        FunctionMesher mB = Test_Mesh(mVisualsPrefabB);
+
+        I2DFunction function = new TileFunction(mNoiseParameters, mTaperParameters);
+        FunctionMesher mB = Test_Mesh(mVisualsPrefabB, function);
+        FunctionMesher mBImmutable = Test_Mesh(mVisualsPrefabB, function);
 
         mA.name = "A";
         mB.name = "B";
+        mBImmutable.name = "BOriginial";
+        mBImmutable.transform.position = Vector3.one * 2f;
 
         Vector3 position = new Vector3(Mathf.Sqrt(3) * 3/4f, 0f, 3/4f);
         mA.transform.position = position;
 
-        mA.BlendMesh(mB.Function, Vector2.zero, mBlendCurve);
+        Vector3 difference = mB.transform.position - mA.transform.position;
+
+        mB.BlendMesh(mA.Function, -new Vector2(difference.x, difference.z), mBlendCurve);
+        //mA.BlendMesh(mB.Function, - new Vector2(difference.x, difference.z), mBlendCurve);
     }
 
     private FunctionMesher Test_Mesh(FunctionMesher prefab, I2DFunction func = null)
