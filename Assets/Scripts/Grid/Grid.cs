@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Grid
 {
-    public struct Point
+    public class Point
     {
         public int LinearIndex;
         public Vector2Int GridIndex;
@@ -15,7 +14,7 @@ public abstract class Grid
     public int Height { get; private set; }
 
     public int PointCount => Width * Height;
-    public Point[] Points { get; private set; }
+    public Point[,] Points { get; private set; }
 
     public Grid(int width, int height)
     {
@@ -25,7 +24,7 @@ public abstract class Grid
 
     public void Init()
     {
-        List<Point> points = new List<Point>();
+        Points = new Point[Width, Height];
 
         for (int i = 0; i < Width; i++)
         {
@@ -35,18 +34,26 @@ public abstract class Grid
 
                 if (IsValidIndex(index))
                 {
-                    int linearIndex = i * Width + j;
-                    points.Add(new Point()
+                    Points[i, j] = new Point()
                     {
-                        LinearIndex = linearIndex,
                         GridIndex = index,
                         Position = CalculatePositionForIndex(index)
-                    });
+                    };
                 }
             }
         }
+    }
 
-        Points = points.ToArray();
+    public Point PointAt(Vector2Int index)
+    {
+        if (IsValidIndex(index))
+        {
+            return Points[index.x, index.y];
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -60,9 +67,15 @@ public abstract class Grid
             throw new ArgumentException("Provided operation is null");
         }
 
-        for (int i = 0; i < Points.Length; i++)
+        for (int i = 0; i < Width; i++)
         {
-            operation.Invoke(Points[i]);
+            for (int j = 0; j < Height; j++)
+            {
+                if(IsValidIndex(new Vector2Int(i, j)))
+                {
+                    operation.Invoke(Points[i, j]);
+                }
+            }
         }
     }
 

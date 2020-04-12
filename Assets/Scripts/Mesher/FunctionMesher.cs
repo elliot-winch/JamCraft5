@@ -1,86 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
-public class FunctionMesher : MonoBehaviour
+public class FunctionMesher
 {
-    private MeshFilter mMeshFilter;
     private Grid mGrid;
+    private Mesh mMesh;
 
-    public I2DFunction Function { get; private set; }
-
-    private void Awake()
+    public FunctionMesher(Grid grid)
     {
-        mMeshFilter = GetComponent<MeshFilter>();
-    }
-
-    public void CreateMesh(I2DFunction function, Grid grid)
-    {
-        CreateMesh(function, grid, Vector2.zero);
-    }
-
-    public void CreateMesh(I2DFunction function, Grid grid, Vector2 sampleOffset)
-    {
-        Function = function;
         mGrid = grid;
 
-        Mesh mesh = BuildMesh(function, grid, sampleOffset);
-
-        mMeshFilter.mesh = mesh;
+        mMesh = BuildMesh(grid);
     }
 
-    public void BlendMesh(I2DFunction blendFunction, Vector2 center, AnimationCurveContainer curve)
+    public Mesh ApplyFunction(I2DFunction function, Vector2 sampleOffset)
     {
         List<Vector3> vertices = new List<Vector3>();
 
         mGrid.IterateOverPoints((point) =>
         {
-            float distance = Vector2.Distance(point.Position, center);
-            float blendFactor = curve.Resolve(distance);
-
-            float blendFunctionValue = blendFunction.Sample(point.Position - center);
-            float functionValue = Function.Sample(point.Position);
-
-            //Weighted average between the two results, based on the distance
-            float blendedHeight = blendFactor * blendFunctionValue + (1 - blendFactor) * functionValue;
-            
-            
-            Debug.LogFormat("DIstance: {0}. Blend Factor: {1}. Blend func val: {2}. Func val: {3}. Blended Height: {4}",
-                distance,
-                blendFactor,
-                blendFunctionValue,
-                functionValue,
-                blendedHeight);          
-    
+            float height = function.Sample(point.Position + sampleOffset);
 
             vertices.Add(new Vector3()
             {
                 x = point.Position.x,
-                y = blendedHeight,
+                y = height,
                 z = point.Position.y
             });
         });
 
-        mMeshFilter.mesh.vertices = vertices.ToArray();
-        mMeshFilter.mesh.RecalculateNormals();
+        mMesh.vertices = vertices.ToArray();
+        mMesh.RecalculateNormals();
+
+        return mMesh;
     }
 
-    private Mesh BuildMesh(I2DFunction function, Grid grid, Vector2 sampleOffset)
+    private Mesh BuildMesh(Grid grid)
     {
         List<Vector3> vertices = new List<Vector3>();
         Dictionary<Vector2Int, int> pointToIndexMap = new Dictionary<Vector2Int, int>();
 
         grid.IterateOverPoints((point) =>
         {
-            float height = function.Sample(point.Position + sampleOffset);
-
             pointToIndexMap[point.GridIndex] = vertices.Count;
 
             vertices.Add(new Vector3()
             {
                 x = point.Position.x,
-                y = height,
+                y = 0f,
                 z = point.Position.y
             });
         });
