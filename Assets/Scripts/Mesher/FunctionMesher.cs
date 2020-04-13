@@ -13,8 +13,10 @@ public class FunctionMesher
         mMesh = BuildMesh(grid);
     }
 
-    public Mesh ApplyFunction(I2DFunction function, Vector2 sampleOffset)
+    public Mesh ApplyHeightFunction(I2DFunction function, Vector2 sampleOffset)
     {
+        UnityEngine.Profiling.Profiler.BeginSample("Apply function");
+        UnityEngine.Profiling.Profiler.BeginSample("Loop");
         List<Vector3> vertices = new List<Vector3>();
 
         mGrid.IterateOverPoints((point) =>
@@ -29,15 +31,22 @@ public class FunctionMesher
             });
         });
 
+        UnityEngine.Profiling.Profiler.EndSample();
+
+        UnityEngine.Profiling.Profiler.BeginSample("Apply result to mesh");
         mMesh.vertices = vertices.ToArray();
         mMesh.RecalculateNormals();
-
+        UnityEngine.Profiling.Profiler.EndSample();
+        UnityEngine.Profiling.Profiler.EndSample();
         return mMesh;
     }
 
     private Mesh BuildMesh(Grid grid)
     {
+        UnityEngine.Profiling.Profiler.BeginSample("Create Data");
+        UnityEngine.Profiling.Profiler.BeginSample("Verts + UVs");
         List<Vector3> vertices = new List<Vector3>();
+        List<Vector2> uvs = new List<Vector2>();
         Dictionary<Vector2Int, int> pointToIndexMap = new Dictionary<Vector2Int, int>();
 
         grid.IterateOverPoints((point) =>
@@ -50,8 +59,16 @@ public class FunctionMesher
                 y = 0f,
                 z = point.Position.y
             });
-        });
 
+            uvs.Add(new Vector2()
+            {
+                x = point.GridIndex.x / (float)grid.Width,
+                y = point.GridIndex.y / (float)grid.Height,
+            });
+        });
+        UnityEngine.Profiling.Profiler.EndSample();
+
+        UnityEngine.Profiling.Profiler.BeginSample("Triangles");
         List<int> trianges = new List<int>();
 
         grid.IterateOverPoints((point) =>
@@ -80,14 +97,19 @@ public class FunctionMesher
                 trianges.Add(pointToIndexMap[eastIndex]);
             }
         });
+        UnityEngine.Profiling.Profiler.EndSample();
 
+        UnityEngine.Profiling.Profiler.BeginSample("Create Mesh");
         Mesh mesh = new Mesh()
         {
             vertices = vertices.ToArray(),
-            triangles = trianges.ToArray()
+            triangles = trianges.ToArray(),
+            uv = uvs.ToArray()
         };
 
         mesh.RecalculateNormals();
+        UnityEngine.Profiling.Profiler.EndSample();
+        UnityEngine.Profiling.Profiler.EndSample();
         return mesh;
     }
 }

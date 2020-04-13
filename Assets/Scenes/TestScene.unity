@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1509851919}
   - component: {fileID: 1509851917}
   m_Layer: 0
-  m_Name: Island
+  m_Name: TestTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,9 +397,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031396699}
-  - component: {fileID: 2031396700}
   - component: {fileID: 2031396698}
-  - component: {fileID: 2031396701}
+  - component: {fileID: 2031396700}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -419,10 +418,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a5df2ad39adcc4ba621db27eeea1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTileVisualsPrefab: {fileID: 1509851917}
-  mBlendCurve: {fileID: 2031396700}
-  mNoiseParameters: {fileID: 11400000, guid: b28f9b5bd791e1a43a30de50a8b8d7eb, type: 2}
-  mTaperParameters: {fileID: 0}
+  mBlendCurve:
+    mCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    MinInput: 0.766
+    MaxInput: 0.966
+    MinOutput: 0
+    MaxOutput: 1
+  mVisualsPrefab: {fileID: 1509851917}
+  mMap: {fileID: 2031396700}
 --- !u!4 &2031396699
 Transform:
   m_ObjectHideFlags: 0
@@ -446,50 +472,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2031396697}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640091c7b3082b54d81a6c90dea4b247, type: 3}
+  m_Script: {fileID: 11500000, guid: 94de88f9ba955b647a4e9b8abc87477f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -1
-      outSlope: -1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  mMinInput: 0.866
-  mMaxInput: 1.2
-  mMinOutput: 0
-  mMaxOutput: 1
---- !u!114 &2031396701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031396697}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c141f2463027294f910bb13ffebb36c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mVisualsPrefabA: {fileID: 1509851917}
-  mBlendCurve: {fileID: 2031396700}
-  mNoiseParameters: {fileID: 11400000, guid: b28f9b5bd791e1a43a30de50a8b8d7eb, type: 2}
-  mTaperParameters: {fileID: 0}
+  mSeaLevel: 0.1
+  mOceanBiomeData: {fileID: 11400000, guid: 3b172f4b46911944bb9b8b7faf206f7c, type: 2}
+  mWhittakerTable: {fileID: 11400000, guid: b6cd9fdf30b5be646831bb5505c7568e, type: 2}
+  mElevationNoiseParams: {fileID: 11400000, guid: 4d19c24f93302a8459abe66415a99bf4,
+    type: 2}
+  mPrecipitationNoiseParams: {fileID: 11400000, guid: 14695014295a79d459c061efe7d1a05c,
+    type: 2}

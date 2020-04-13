@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldFunction : I2DFunction
+public class WorldViewFunction : I2DFunction
 {
     private struct PlacedFunction
     {
@@ -11,9 +11,9 @@ public class WorldFunction : I2DFunction
     }
 
     private List<PlacedFunction> mPlacedFunctions = new List<PlacedFunction>();
-    private AnimationCurveContainer mBlendCurve;
+    private Mapper mBlendCurve;
 
-    public WorldFunction(AnimationCurveContainer blendCurve)
+    public WorldViewFunction(Mapper blendCurve)
     {
         mBlendCurve = blendCurve;
     }
@@ -42,14 +42,14 @@ public class WorldFunction : I2DFunction
             float distance = Vector2.Distance(samplePosition, placedFunction.Position);
             float blendFactor = mBlendCurve.Resolve(distance);
 
-            if(blendFactor >= 0)
+            if(blendFactor > 0)
             {
                 blendFactors[placedFunction] = blendFactor;
                 totalBlendFactor += blendFactor;
             }
         }
 
-        //Find the hiehgt with the normalised blend factors
+        //Find the height with the normalised blend factors
         float height = 0f;
         foreach (var functionFactors in blendFactors)
         {

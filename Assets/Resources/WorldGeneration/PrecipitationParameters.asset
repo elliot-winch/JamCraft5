@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e17d8d53d98d1d04fbf115c169aa935d, type: 3}
-  m_Name: Desert
+  m_Name: PrecipitationParameters
   m_EditorClassIdentifier: 
-  StepCount: 1
+  StepCount: 2
   NoiseType: 1
   Octave:
     mCurve:
@@ -20,9 +20,9 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -30,8 +30,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -39,19 +39,19 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    mMinInput: 0
-    mMaxInput: 1
-    mMinOutput: 1.5
-    mMaxOutput: 0
+    MinInput: 0
+    MaxInput: 1
+    MinOutput: 0.2
+    MaxOutput: 0.4
   Scale:
     mCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
-        inSlope: 1
-        outSlope: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -59,8 +59,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 1
-        outSlope: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    mMinInput: 0
-    mMaxInput: 1
-    mMinOutput: 0.5
-    mMaxOutput: 0.4
+    MinInput: 0
+    MaxInput: 1
+    MinOutput: 0
+    MaxOutput: 1

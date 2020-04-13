@@ -7,7 +7,7 @@ public class UnitTest : MonoBehaviour
     public TileVisuals mVisualsPrefabA;
     //public FunctionMesher mVisualsPrefabB;
     [SerializeField]
-    public AnimationCurveContainer mBlendCurve;
+    public Mapper mBlendCurve;
 
     /*
     [Header("Test Tile")]
@@ -21,7 +21,7 @@ public class UnitTest : MonoBehaviour
     private HexGrid.TopType mTopType;
     */
     [SerializeField]
-    private TileFunctionNoiseParameters mNoiseParameters;
+    private LayeredPerlinNoiseParameters mNoiseParameters;
     [SerializeField]
     private TileFunctionTaperParameters mTaperParameters;
     

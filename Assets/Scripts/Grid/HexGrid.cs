@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class HexGrid : Grid
+public class HexGrid : IGridPositioner
 {
     public enum TopType
     {
@@ -25,7 +25,10 @@ public class HexGrid : Grid
     private Vector2 mOffset;
     private float mScalar;
 
-    public HexGrid(int points, float size, TopType type) : base(points * 2 + 1, points * 2 + 1)
+    public int Width { get; private set; }
+    public int Height { get; private set; }
+
+    public HexGrid(int points, float size, TopType type)
     {
         mType = type;
         mSize = size;
@@ -33,11 +36,14 @@ public class HexGrid : Grid
         mDepthBoundaryLeft = -points * 3;
         mDepthBoundaryRight = -points;
 
+        Width = points * 2 + 1;
+        Height = points * 2 + 1;
+
         //Constants
         mSqrt3 = Mathf.Sqrt(3f);
     }
 
-    public override bool IsValidIndex(Vector2Int index)
+    public bool IsValidIndex(Vector2Int index)
     {
         Vector3Int cube = AxialToCube(index);
         return cube.x >= 0 && cube.x < Width
@@ -45,7 +51,7 @@ public class HexGrid : Grid
             && cube.z <= mDepthBoundaryRight && cube.z >= mDepthBoundaryLeft;
     }
 
-    protected override Vector2 CalculatePositionForIndex(Vector2 index)
+    public Vector2 CalculatePositionForIndex(Vector2 index)
     {
         float normalisedIndexX = index.x;
         float normalisedIndexY = index.y;

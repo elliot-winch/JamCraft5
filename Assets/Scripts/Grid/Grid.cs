@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class Grid
+public class Grid
 {
     public class Point
     {
@@ -10,34 +10,35 @@ public abstract class Grid
         public Vector2 Position;
     }
 
-    public int Width { get; private set; }
-    public int Height { get; private set; }
+    public int PointCount => mPositioner.Width * mPositioner.Height;
+    public int Width => mPositioner.Width;
+    public int Height => mPositioner.Height;
 
-    public int PointCount => Width * Height;
     public Point[,] Points { get; private set; }
 
-    public Grid(int width, int height)
+    private IGridPositioner mPositioner;
+
+    public Grid(IGridPositioner positioner)
     {
-        Width = width;
-        Height = height;
+        mPositioner = positioner;
     }
 
     public void Init()
     {
-        Points = new Point[Width, Height];
+        Points = new Point[mPositioner.Width, mPositioner.Height];
 
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < mPositioner.Width; i++)
         {
-            for (int j = 0; j < Height; j++)
+            for (int j = 0; j < mPositioner.Height; j++)
             {
                 Vector2Int index = new Vector2Int(i, j);
 
-                if (IsValidIndex(index))
+                if (mPositioner.IsValidIndex(index))
                 {
                     Points[i, j] = new Point()
                     {
                         GridIndex = index,
-                        Position = CalculatePositionForIndex(index)
+                        Position = mPositioner.CalculatePositionForIndex(index)
                     };
                 }
             }
@@ -46,7 +47,7 @@ public abstract class Grid
 
     public Point PointAt(Vector2Int index)
     {
-        if (IsValidIndex(index))
+        if (mPositioner.IsValidIndex(index))
         {
             return Points[index.x, index.y];
         }
@@ -67,18 +68,15 @@ public abstract class Grid
             throw new ArgumentException("Provided operation is null");
         }
 
-        for (int i = 0; i < Width; i++)
+        for (int i = 0; i < mPositioner.Width; i++)
         {
-            for (int j = 0; j < Height; j++)
+            for (int j = 0; j < mPositioner.Height; j++)
             {
-                if(IsValidIndex(new Vector2Int(i, j)))
+                if(mPositioner.IsValidIndex(new Vector2Int(i, j)))
                 {
                     operation.Invoke(Points[i, j]);
                 }
             }
         }
     }
-
-    public abstract bool IsValidIndex(Vector2Int index);
-    protected abstract Vector2 CalculatePositionForIndex(Vector2 index);
 }

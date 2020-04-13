@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6aed1a2344caf84fb91bc9cd30ea34e, type: 3}
+  m_Name: WhittakerTable
+  m_EditorClassIdentifier: 
+  Rows:
+  - Data:
+    - {fileID: 11400000, guid: 4e45ca4fc68b67a4d91823a8b8d77b09, type: 2}
+    - {fileID: 11400000, guid: 62f491ebe34bd3a4da113bf6a6807ccb, type: 2}
+  - Data:
+    - {fileID: 11400000, guid: 098b4dea30cdc5d47a65811031adf6cf, type: 2}
+    - {fileID: 11400000, guid: 098b4dea30cdc5d47a65811031adf6cf, type: 2}

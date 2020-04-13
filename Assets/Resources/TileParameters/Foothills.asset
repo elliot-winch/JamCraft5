@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17d8d53d98d1d04fbf115c169aa935d, type: 3}
   m_Name: Foothills
   m_EditorClassIdentifier: 
-  PointDensity: 20
+  StepCount: 3
+  NoiseType: 1
   MinOctave: 0.7
   MaxOctave: 3.7
   OctaveCurve:
@@ -39,6 +40,35 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Octave:
+    mCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    mMinInput: 0
+    mMaxInput: 1
+    mMinOutput: 0.7
+    mMaxOutput: 3.7
   MinScale: 0.4
   MaxScale: 0.1
   ScaleCurve:
@@ -65,5 +95,32 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  StepCount: 3
-  NoiseType: 1
+  Scale:
+    mCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    mMinInput: 0
+    mMaxInput: 1
+    mMinOutput: 0.4
+    mMaxOutput: 0.1

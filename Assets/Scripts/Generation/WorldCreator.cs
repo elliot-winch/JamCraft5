@@ -1,46 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldCreator : MonoBehaviour
 {
     [SerializeField]
-    private TileVisuals mTileVisualsPrefab;  //for now, just one kind of tile
+    private Mapper mBlendCurve;
     [SerializeField]
-    private AnimationCurveContainer mBlendCurve;
+    private TileVisuals mVisualsPrefab;
     [SerializeField]
-    private TileFunctionNoiseParameters mNoiseParameters;
-    [SerializeField]
-    private TileFunctionTaperParameters mTaperParameters;
+    private WorldMap mMap;
 
+    //Start is temp
     private void Start()
     {
-        //TEMP
-        CreateWorld();
+        Grid worldGrid = new Grid(new HexGrid(4, 4 * Mathf.Sqrt(3), HexGrid.TopType.Pointy));
+        worldGrid.Init();
+
+        UnityEngine.Profiling.Profiler.BeginSample("Create World Map");
+        mMap.CreateWorldModel(worldGrid);
+        UnityEngine.Profiling.Profiler.EndSample();
+
+        CreateWorldView(mMap);
     }
 
-    public void CreateWorld()
+    public void CreateWorldView(WorldMap map)
     {
-        HexGrid tileGrid = new HexGrid(1, Mathf.Sqrt(3), HexGrid.TopType.Pointy);
-        tileGrid.Init();
+        WorldViewFunction worldFunction = new WorldViewFunction(mBlendCurve);
 
-        WorldFunction worldFunction = new WorldFunction(mBlendCurve);
-
-        tileGrid.IterateOverPoints((point) =>
+        UnityEngine.Profiling.Profiler.BeginSample("Create View Function");
+        map.Grid.IterateOverPoints((point) =>
         {
-            worldFunction.AddFunction(point.Position, new TileFunction(mNoiseParameters, mTaperParameters));
+            Tile tile = map.TileAt(point);
+
+            worldFunction.AddFunction(point.Position, new TileFunction(tile.BiomeData.ViewGenerationParameters));
         });
+        UnityEngine.Profiling.Profiler.EndSample();
 
-        tileGrid.IterateOverPoints((point) =>
+        UnityEngine.Profiling.Profiler.BeginSample("Create Tile Visuals");
+        map.Grid.IterateOverPoints((point) =>
         {
-            TileVisuals tile = Instantiate(mTileVisualsPrefab);
-            tile.Create(worldFunction, point.Position);
+            TileVisuals tileVisual = Instantiate(mVisualsPrefab);
+            tileVisual.CreateMesh(worldFunction, point.Position);
 
-            tile.transform.position = new Vector3()
+            tileVisual.transform.position = new Vector3()
             {
                 x = point.Position.x,
                 z = point.Position.y
             };
+
+            Tile tile = map.TileAt(point);
+            tileVisual.Material = tile.BiomeData.Material;
         });
+        UnityEngine.Profiling.Profiler.EndSample();
     }
 }
